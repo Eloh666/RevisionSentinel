@@ -262,19 +262,27 @@ class Ui_MainWindow(object):
         progdialog.setWindowTitle("Sending Emails")
         progdialog.setWindowModality(QtCore.Qt.WindowModal)
         progdialog.show()
+        progdialog.canceled.connect(progdialog.close)
         for i in range(self.treeWidget.topLevelItemCount()):
             self.sendMessage([self.treeWidget.topLevelItem(i)])
             progdialog.setValue(i)
+            if progdialog.wasCanceled():
+                break
         progdialog.close()
 
 
 if __name__ == "__main__":
     import sys
     app = QtGui.QApplication(sys.argv)
+    splash_pix = QPixmap('loadingScreen.png')
+    splash = QSplashScreen(splash_pix, Qt.WindowStaysOnTopHint)
+    splash.setMask(splash_pix.mask())
+    splash.show()
     app.setStyle("plastique")
     MainWindow = QtGui.QMainWindow()
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()
+    splash.finish(MainWindow)
     sys.exit(app.exec_())
 
