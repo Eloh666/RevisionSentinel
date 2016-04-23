@@ -2,3 +2,6 @@
 
 
 filePath = text.xlsx
+
+Mailing List:
+davidemaurilio.morello@gmail.com

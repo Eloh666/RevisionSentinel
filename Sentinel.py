@@ -11,9 +11,11 @@ from PyQt4 import QtCore, QtGui
 from PyQt4.QtGui import *
 import AgentsHandler
 import MailSender
+import ExtendedTreeWidget
 import webbrowser
 import os
 import time
+import sys
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -65,9 +67,9 @@ class Ui_MainWindow(object):
         self.pushButton_8 = QtGui.QPushButton(self.verticalLayoutWidget)
         self.pushButton_8.setObjectName(_fromUtf8("pushButton_8"))
         self.verticalLayout_2.addWidget(self.pushButton_8)
-        self.checkBox = QtGui.QCheckBox(self.centralwidget)
-        self.checkBox.setGeometry(QtCore.QRect(20, 60, 101, 17))
-        self.checkBox.setObjectName(_fromUtf8("checkBox"))
+        self.checkBox_2 = QtGui.QCheckBox(self.centralwidget)
+        self.checkBox_2.setGeometry(QtCore.QRect(290, 20, 100, 17))
+        self.checkBox_2.setObjectName(_fromUtf8("checkBox_3"))
         self.gridLayoutWidget_2 = QtGui.QWidget(self.centralwidget)
         self.gridLayoutWidget_2.setGeometry(QtCore.QRect(10, 109, 811, 51))
         self.gridLayoutWidget_2.setObjectName(_fromUtf8("gridLayoutWidget_2"))
@@ -103,6 +105,23 @@ class Ui_MainWindow(object):
         self.label_5 = QtGui.QLabel(self.gridLayoutWidget_2)
         self.label_5.setObjectName(_fromUtf8("label_5"))
         self.gridLayout_2.addWidget(self.label_5, 0, 4, 1, 1)
+        self.horizontalLayoutWidget_2 = QtGui.QWidget(self.centralwidget)
+        self.horizontalLayoutWidget_2.setGeometry(QtCore.QRect(10, 60, 491, 41))
+        self.horizontalLayoutWidget_2.setObjectName(_fromUtf8("horizontalLayoutWidget_2"))
+        self.horizontalLayout_2 = QtGui.QHBoxLayout(self.horizontalLayoutWidget_2)
+        self.horizontalLayout_2.setObjectName(_fromUtf8("horizontalLayout_2"))
+        self.lessThanLabel = QtGui.QLabel(self.horizontalLayoutWidget_2)
+        self.lessThanLabel.setObjectName(_fromUtf8("lessThanLabel"))
+        self.horizontalLayout_2.addWidget(self.lessThanLabel)
+        self.lineEdit_2 = QtGui.QLineEdit(self.horizontalLayoutWidget_2)
+        self.lineEdit_2.setObjectName(_fromUtf8("lineEdit_2"))
+        self.horizontalLayout_2.addWidget(self.lineEdit_2)
+        self.label_6 = QtGui.QLabel(self.horizontalLayoutWidget_2)
+        self.label_6.setObjectName(_fromUtf8("label_6"))
+        self.horizontalLayout_2.addWidget(self.label_6)
+        self.checkBox = QtGui.QCheckBox(self.horizontalLayoutWidget_2)
+        self.checkBox.setObjectName(_fromUtf8("checkBox"))
+        self.horizontalLayout_2.addWidget(self.checkBox)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 827, 21))
@@ -119,13 +138,12 @@ class Ui_MainWindow(object):
         self.menuFile.addAction(self.actionExit)
         self.menubar.addAction(self.menuFile.menuAction())
 
-
         self.setupHandlers()
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow", None))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Revision Watcher", None))
         self.commandLinkButton.setText(_translate("MainWindow", "Edit file in Excel", None))
         self.treeWidget.headerItem().setText(0, _translate("MainWindow", "Agent", None))
         self.treeWidget.headerItem().setText(1, _translate("MainWindow", "Title", None))
@@ -135,19 +153,38 @@ class Ui_MainWindow(object):
         self.pushButton_3.setText(_translate("MainWindow", "Send Alert", None))
         self.pushButton_7.setText(_translate("MainWindow", "Send All", None))
         self.pushButton_8.setText(_translate("MainWindow", "Display All", None))
-        self.checkBox.setText(_translate("MainWindow", "Display past due", None))
         self.label.setText(_translate("MainWindow", "Name", None))
         self.label_2.setText(_translate("MainWindow", "Job Title", None))
         self.label_3.setText(_translate("MainWindow", "Revision Date", None))
         self.label_4.setText(_translate("MainWindow", "Days until Due", None))
         self.label_5.setText(_translate("MainWindow", "Revision Type", None))
+        self.lessThanLabel.setText(_translate("MainWindow", "Select agents due in", None))
+        self.label_6.setText(_translate("MainWindow", " days.            ", None))
+        self.checkBox.setText(_translate("MainWindow", "Display past due", None))
+        self.checkBox_2.setText(_translate("MainWindow", "Color  Mode", None))
         self.menuFile.setTitle(_translate("MainWindow", "File", None))
         self.actionExit.setText(_translate("MainWindow", "Exit", None))
+        self.lineEdit.setPlaceholderText(_translate("MainWindow", "fx: Annual", None))
+        self.lineEdit_3.setPlaceholderText(_translate("MainWindow", "fx: 10", None))
+        self.lineEdit_4.setPlaceholderText(_translate("MainWindow", "fx: 1989-09-14", None))
+        self.lineEdit_5.setPlaceholderText(_translate("MainWindow", "fx: Communicator", None))
+        self.lineEdit_6.setPlaceholderText(_translate("MainWindow", "fx: John Smith", None))
+        self.lineEdit_2.setPlaceholderText(_translate("MainWindow", "select number of days", None))
         self.treeWidget.setColumnWidth(0,165)
         self.treeWidget.setColumnWidth(1, 160)
         self.treeWidget.setColumnWidth(2, 160)
         self.treeWidget.setColumnWidth(3, 160)
         self.treeWidget.setColumnWidth(4, 160)
+        self.treeWidget.setSortingEnabled(True)
+        displayIcon = QIcon("Icons\showAll.png")
+        singleMailIcon = QIcon("Icons\singleMail.png")
+        multiMailIcon = QIcon("Icons\multiMail.png")
+        self.pushButton_8.setIcon(displayIcon)
+        self.pushButton_3.setIcon(singleMailIcon)
+        self.pushButton_7.setIcon(multiMailIcon)
+        self.pushButton_8.setIconSize(QtCore.QSize(20, 20))
+        self.pushButton_3.setIconSize(QtCore.QSize(20, 20))
+        self.pushButton_7.setIconSize(QtCore.QSize(20, 20))
 
     def setupHandlers(self):
         try:
@@ -156,8 +193,11 @@ class Ui_MainWindow(object):
             QtGui.QMessageBox.information(self, "Warning", "Could not enstablish SMTP connection. Check your port routing.")
             time.sleep(1.5)
             QtGui.qApp.quit()
+        self.checkBox_2.setChecked(True)
         self.settings = self.initLines()
+        self.mailingList = self.updateMailingList()
         self.agentsData = sorted(self.getLists(), key=lambda tup: tup[3])
+        self.filtered = []
         displayAll = lambda: self.displayAgents(self.agentsData)
         sendMail = lambda: self.sendMessage(self.treeWidget.selectedItems())
         self.retranslateUi(MainWindow)
@@ -165,6 +205,7 @@ class Ui_MainWindow(object):
         self.pushButton_8.clicked.connect(displayAll)
         self.pushButton_3.clicked.connect(sendMail)
         self.lineEdit.textChanged.connect(self.filterSort) # type
+        self.lineEdit_2.textChanged.connect(self.filterSort)  # days
         self.lineEdit_3.textChanged.connect(self.filterSort) # days
         self.lineEdit_4.textChanged.connect(self.filterSort) # date
         self.lineEdit_5.textChanged.connect(self.filterSort)  # job
@@ -172,6 +213,9 @@ class Ui_MainWindow(object):
         self.pushButton_7.clicked.connect(self.sendAllMessages)
         self.checkBox.stateChanged.connect(self.filterSort)
         self.commandLinkButton.clicked.connect(self.openExcelFile)
+        self.actionExit.triggered.connect(app.quit)
+        self.checkBox_2.stateChanged.connect(self.filterSort)
+        self.filterSort(31)
 
     def initLines(self):
         config = open("Config.txt")
@@ -182,7 +226,7 @@ class Ui_MainWindow(object):
     def openExcelFile(self):
         webbrowser.open("text.xlsx")
 
-    def filterSort(self):
+    def filterSort(self, upperBound = sys.maxint):
         filtered = []
         for name, job, date, days, type in self.agentsData:
             try:
@@ -190,11 +234,19 @@ class Ui_MainWindow(object):
             except:
                 daysValue = days
             finally:
+                if self.lineEdit_2.text() != "":
+                    try:
+                        upperBound = int(self.lineEdit_2.text())
+                    except:
+                        upperBound = sys.maxint
                 if type.lower().__contains__(self.lineEdit.text().toLower()) and name.lower().__contains__(
-                    self.lineEdit_6.text().toLower()) and job.lower().__contains__(self.lineEdit_5.text().toLower()
-                    ) and (int(days) == daysValue) and str(date).__contains__(str(self.lineEdit_4.text())):
+                        self.lineEdit_6.text().toLower()) and job.lower().__contains__(self.lineEdit_5.text().toLower()
+                                                                                       ) and (
+                    int(days) == daysValue) and str(date).__contains__(str(self.lineEdit_4.text())) and (
+                            days < upperBound):
                         filtered.append((name,job,date,days,type))
                 self.displayAgents(filtered)
+                self.filtered = filtered
 
     def getLists(self):
         if os.path.isfile("Config.txt"):
@@ -206,6 +258,7 @@ class Ui_MainWindow(object):
                     temp = temp.replace("= ", "")
                     temp = temp.replace(" =", "")
                     temp = temp.replace(" = ", "")
+                    temp = temp.replace("\n","")
                     agentsHandler = AgentsHandler.DocScanner(temp)
                     lists = agentsHandler.checkAgents()
         else:
@@ -227,48 +280,95 @@ class Ui_MainWindow(object):
             self.filtered = self.agentsData
         for i in list:
             if i[3] > 0 or (i[3] < 0 and self.checkBox.isChecked()):
-                item = QTreeWidgetItem()
+                item = ExtendedTreeWidget.MyTreeWidgetItem()
                 item.setText(0, str(i[0]))
-                item.setText(1,str(i[1]))
+                item.setText(1, str(i[1]))
                 item.setText(2, str(i[2]))
                 item.setText(3, str(i[3]))
+                item.setSortData(3, int(i[3]))
                 item.setText(4, str(i[4]))
-                if i[3] < 0:
-                    item.setBackgroundColor(0, QtGui.QColor(255,1,1))
-                    item.setBackgroundColor(1, QtGui.QColor(255, 1, 1))
-                    item.setBackgroundColor(2, QtGui.QColor(255, 1, 1))
-                    item.setBackgroundColor(3, QtGui.QColor(255, 1, 1))
-                    item.setBackgroundColor(4, QtGui.QColor(255, 1, 1))
+                if self.checkBox_2.isChecked():
+                    if i[3] <= 30:
+                        item.setBackgroundColor(0, QtGui.QColor(1, 255, 1))
+                        item.setBackgroundColor(1, QtGui.QColor(1, 255, 1))
+                        item.setBackgroundColor(2, QtGui.QColor(1, 255, 1))
+                        item.setBackgroundColor(3, QtGui.QColor(1, 255, 1))
+                        item.setBackgroundColor(4, QtGui.QColor(1, 255, 1))
+                    if i[3] <= 15:
+                        item.setBackgroundColor(0, QtGui.QColor(255, 255, 1))
+                        item.setBackgroundColor(1, QtGui.QColor(255, 255, 1))
+                        item.setBackgroundColor(2, QtGui.QColor(255, 255, 1))
+                        item.setBackgroundColor(3, QtGui.QColor(255, 255, 1))
+                        item.setBackgroundColor(4, QtGui.QColor(255, 255, 1))
+                    if i[3] <= 7:
+                        item.setBackgroundColor(0, QtGui.QColor(205,69,0))
+                        item.setBackgroundColor(1, QtGui.QColor(205,69,0))
+                        item.setBackgroundColor(2, QtGui.QColor(205,69,0))
+                        item.setBackgroundColor(3, QtGui.QColor(205,69,0))
+                        item.setBackgroundColor(4, QtGui.QColor(205,69,0))
+                if self.checkBox.isChecked():
+                    if i[3] <= 0:
+                        item.setBackgroundColor(0, QtGui.QColor(255,1,1))
+                        item.setBackgroundColor(1, QtGui.QColor(255, 1, 1))
+                        item.setBackgroundColor(2, QtGui.QColor(255, 1, 1))
+                        item.setBackgroundColor(3, QtGui.QColor(255, 1, 1))
+                        item.setBackgroundColor(4, QtGui.QColor(255, 1, 1))
                 self.treeWidget.addTopLevelItem(item)
+        self.treeWidget.sortByColumn(3, Qt.AscendingOrder)
 
-    def sendMessage(self, item):
+    def sendMessage(self, item, iterative = False):
         if len(item) != 0:
-            agent = item[0]
-            name = agent.text(0)
-            date = agent.text(2)
-            delta = agent.text(3)
-            type = agent.text(4)
-            if type.__contains__("Annual"):
-                type += " Review"
-            if not self.mailBuffer:
-                self.mailBuffer = MailSender.MailSender()
-            message = "Agent "+name+" is due for his/hers " + type +" in " + delta + " days." \
-                      "The review is scheduled for "+date
-            self.mailBuffer.sendEmail(str(message), "davidemaurilio.morello@gmail.com")
+            if not iterative:
+                confirmDialog = QtGui.QMessageBox
+                reply = confirmDialog.question(None, 'Message',
+                                               "Sending email, do you want to proceed?",
+                                               QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
+                if reply == QtGui.QMessageBox.Yes:
+                    self.sendMessageHelper(item)
+            else:
+                self.sendMessageHelper(item)
+
+    def sendMessageHelper(self, item):
+        agent = item[0]
+        name = agent.text(0)
+        date = agent.text(2)
+        delta = agent.text(3)
+        type = agent.text(4)
+        if type.__contains__("Annual"):
+            type += " Review"
+        if not self.mailBuffer:
+            self.mailBuffer = MailSender.MailSender()
+        message = "Agent " + name + " is due for his/hers " + type + " in " + delta + " days." \
+                                                                                      "The review is scheduled for " + date
+        for i in self.mailingList:
+            self.mailBuffer.sendEmail(name, delta, str(message), i)
 
     def sendAllMessages(self):
-        progdialog = QtGui.QProgressDialog(
-            "Sending Emails", "Cancel", 0, int(self.treeWidget.topLevelItemCount()))
-        progdialog.setWindowTitle("Sending Emails")
-        progdialog.setWindowModality(QtCore.Qt.WindowModal)
-        progdialog.show()
-        progdialog.canceled.connect(progdialog.close)
-        for i in range(self.treeWidget.topLevelItemCount()):
-            self.sendMessage([self.treeWidget.topLevelItem(i)])
-            progdialog.setValue(i)
-            if progdialog.wasCanceled():
-                break
-        progdialog.close()
+        if self.treeWidget.topLevelItemCount() != 0:
+            confirmDialog = QtGui.QMessageBox
+            reply = confirmDialog.question(None, 'Message',
+                                           "This will send an alert for every agent currently displayed. Do you wish to proceed?",
+                                           QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
+            if reply == QtGui.QMessageBox.Yes:
+                progdialog = QtGui.QProgressDialog(
+                    "Sending Emails", "Cancel", 0, int(self.treeWidget.topLevelItemCount()))
+                progdialog.setWindowTitle("Sending Emails")
+                progdialog.setWindowModality(QtCore.Qt.WindowModal)
+                progdialog.show()
+                progdialog.canceled.connect(progdialog.close)
+                for i in range(self.treeWidget.topLevelItemCount()):
+                    self.sendMessage([self.treeWidget.topLevelItem(i)], True)
+                    progdialog.setValue(i)
+                    if progdialog.wasCanceled():
+                        break
+                progdialog.close()
+
+    def updateMailingList(self):
+        mailingList = []
+        for i in self.settings:
+            if i.__contains__("@"):
+                mailingList.append(i.replace("\n", ""))
+        return mailingList
 
 
 if __name__ == "__main__":
@@ -279,6 +379,7 @@ if __name__ == "__main__":
     splash.setMask(splash_pix.mask())
     splash.show()
     app.setStyle("plastique")
+    app.setWindowIcon(QtGui.QIcon('Icons\logo.png'))
     MainWindow = QtGui.QMainWindow()
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)

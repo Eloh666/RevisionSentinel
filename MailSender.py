@@ -8,11 +8,12 @@ class MailSender():
         self.mail.starttls()
         self.mail.login("RevisionSentinel@gmail.com","revSentPass")
 
-    def sendEmail(self, body, recipient):
+    def sendEmail(self, agent, days, body, recipient):
         msg = message.Message()
-        msg.add_header('from','Revision Sentinel')
+        msg.add_header('from','Revision Watcher')
         msg.add_header('to', 'davidemaurilio.morello@gmail.com')
-        msg.add_header('subject', '__Agent__ REVISION due SOON')
+        temp = "REMINDER: "+agent+" revision due in "+ days + "days!"
+        msg.add_header('subject', str(temp))
         msg.set_payload(body)
         self.mail.sendmail("Revision Sentinel",recipient, msg.as_string())
 

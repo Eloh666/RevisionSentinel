@@ -16,3 +16,4 @@ class DocScanner():
             timeDelta = revisionDate - self.now
             allAgents.append((row[1].value+" "+row[2].value, row[3].value, str(revisionDate).replace(" 00:00:00",""), timeDelta.days, row[5].value ))
         return allAgents
+
